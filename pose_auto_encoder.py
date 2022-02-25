@@ -3,6 +3,7 @@ import os
 import shutil
 from Training.training import train
 from Training.training_bones import train_bones
+from Training.training_vae_bones import train_vae_bones
 from datetime import datetime
 
 
@@ -31,6 +32,7 @@ def parse_args():
     parser.add_argument('--print_csv', action='store_true')
     parser.add_argument('--continue_training', action='store_true')
     parser.add_argument('--bone_training', action='store_true')
+    parser.add_argument('--vae', action='store_true')
     parser.add_argument('--notes', type=str, default="N/A", help='A description of the experiment')
     parser.add_argument('--experiment_name', type=str, default="N/A", help='A name for the experiment')
 
@@ -52,7 +54,10 @@ def main():
         os.makedirs(os.path.join(args.base_results_dir,"Saved_Models"))
 
     if(args.bone_training):
-        train_bones(args)
+        if(args.vae):
+            train_vae_bones(args)
+        else:
+            train_bones(args)
     else:
         train(args)
         
