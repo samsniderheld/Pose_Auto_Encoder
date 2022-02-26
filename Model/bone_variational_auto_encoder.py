@@ -20,7 +20,7 @@ def sampling(args):
     return z_mean + K.exp(0.5 * z_log_var) * epsilon
 
 
-def create_variational_bone_auto_encoder(latent_dim = 10, dims = 128, kernal_size = 3):
+def create_variational_bone_auto_encoder(latent_dim = 10, dims = 128, kernal_size = 3, beta = 1):
     #define model
     latent_size = latent_dim
 
@@ -75,18 +75,9 @@ def create_variational_bone_auto_encoder(latent_dim = 10, dims = 128, kernal_siz
 
     #z layer layer
     z = Lambda(sampling, output_shape=(latent_size,), name='z')([z_mean,z_log_var])
-    z = concatenate([z,cond],axis=1)
 
     #instantiate encoder model
     encoder = Model(image_encoder_input, [z_mean, z_log_var, z], name='image encoder')
-    encoder.summary()
-
-
-    # get shape info for later
-
-    # instantiate encoder model
-    encoder = Model (image_encoder_input,encoder_output, name="image_decoder")
-
     encoder.summary()
 
 
@@ -112,7 +103,7 @@ def create_variational_bone_auto_encoder(latent_dim = 10, dims = 128, kernal_siz
     bone_decoder.summary()
 
 
-    bone_variational_auto_encoder_output = bone_decoder(encoder(image_encoder_input))
+    bone_variational_auto_encoder_output = bone_decoder(encoder(image_encoder_input)[2])
 
     bone_variational_auto_encoder = Model([image_encoder_input,bone_encoder_input], 
         bone_variational_auto_encoder_output, name='bone_variational_auto_encoder')
