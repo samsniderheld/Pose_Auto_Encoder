@@ -77,7 +77,7 @@ def create_variational_bone_auto_encoder(latent_dim = 10, dims = 128, kernal_siz
     z = Lambda(sampling, output_shape=(latent_size,), name='z')([z_mean,z_log_var])
 
     #instantiate encoder model
-    encoder = Model(image_encoder_input, [z_mean, z_log_var, z], name='image encoder')
+    encoder = Model(image_encoder_input, [z_mean, z_log_var, z], name='image_encoder')
     encoder.summary()
 
 
