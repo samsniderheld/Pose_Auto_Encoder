@@ -114,7 +114,7 @@ def create_variational_bone_auto_encoder(latent_dim = 10, dims = 128, kernal_siz
     bone_reconstruction_loss = mse(K.flatten(bone_encoder_input), 
         K.flatten(bone_variational_auto_encoder_output))
     
-    bone_reconstruction_loss *= dims * dims
+    bone_reconstruction_loss *= 52 * 3
     kl_loss = (1 + z_log_var - K.square(z_mean) - K.exp(z_log_var)) * beta
     kl_loss = K.sum(kl_loss, axis=-1)
     kl_loss *= -0.5
