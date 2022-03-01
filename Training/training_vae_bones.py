@@ -40,7 +40,7 @@ def train_vae_bones(args):
                 output_test_csv_dir, i, args.print_csv, args.bone_training)
 
             bone_auto_encoder_save_path = os.path.join(model_save_path,f"{i:04d}_bone_auto_encoder_model.h5")
-            bone_auto_encoder.save(bone_auto_encoder_save_path)
+            bone_auto_encoder.save_weights(bone_auto_encoder_save_path)
 
             lowest_loss = loss
 
@@ -52,7 +52,7 @@ def train_vae_bones(args):
                 output_history_path, args.num_epochs, args.print_csv, args.bone_training)
 
     bone_auto_encoder_save_path = os.path.join(model_save_path,f"{args.num_epochs:04d}_bone_auto_encoder_model.h5")
-    bone_auto_encoder.save(bone_auto_encoder_save_path)
+    bone_auto_encoder.save_weights(bone_auto_encoder_save_path)
 
     save_experiment_history(args,all_history,output_history_path)
 
