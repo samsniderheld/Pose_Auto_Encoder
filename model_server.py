@@ -9,6 +9,7 @@ import cv2
 from scipy.spatial import distance
 import scipy.misc
 from keras.preprocessing import image
+from Model.bone_variational_auto_encoder import create_variational_bone_auto_encoder
 
 
 # encoder_model = tf.keras.models.load_model('Saved_Models/0300_encoder_model.h5')
@@ -17,7 +18,7 @@ from keras.preprocessing import image
 encoder, bone_decoder, auto_encoder = create_variational_bone_auto_encoder(
         dims=128, latent_dim = 128)
 
-auto_encoder = tf.keras.models.load_model('Saved_Models/0200_bone_auto_encoder_model.h5')
+auto_encoder.load_weights('Saved_Models/0198_bone_auto_encoder_model.h5')
 
 
 app = Flask(__name__)
@@ -43,9 +44,11 @@ def suggest():
     np_img = np_img/255.
 
     sample = np.expand_dims(np_img, axis=0)
+
+    empty_CSV = np.empty((1,52,3))
    
     # prediction = bone_decoder_model(encoder_model(sample))
-    prediction = auto_encoder(sample)
+    prediction = auto_encoder([sample,empty_CSV])
 
     response = {"bones": prediction[0].numpy().flatten().tolist()}
 
