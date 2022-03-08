@@ -16,9 +16,9 @@ from Model.bone_variational_auto_encoder import create_variational_bone_auto_enc
 # bone_decoder_model = tf.keras.models.load_model('Saved_Models/0300_bone_decoder_model.h5')
 
 encoder, bone_decoder, auto_encoder = create_variational_bone_auto_encoder(
-        dims=128, latent_dim = 128)
+        dims=128, latent_dim = 512)
 
-auto_encoder.load_weights('Saved_Models/0198_bone_auto_encoder_model.h5')
+auto_encoder.load_weights('Saved_Models/bone_auto_encoder_model.h5')
 
 
 app = Flask(__name__)

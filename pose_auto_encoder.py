@@ -29,6 +29,7 @@ def parse_args():
     parser.add_argument('--img_height', type=int, default=128, help='The width of the image')
     parser.add_argument('--print_freq', type=int, default=5, help='How often is the status printed')
     parser.add_argument('--save_freq', type=int, default=10, help='How often is the model saved')
+    parser.add_argument('--save_best_only', action='store_true')
     parser.add_argument('--print_csv', action='store_true')
     parser.add_argument('--continue_training', action='store_true')
     parser.add_argument('--bone_training', action='store_true')
