@@ -35,30 +35,30 @@ def train_bones(args):
 
         loss = round(history.history['loss'][0],4)
 
-        if(loss < lowest_loss):
-            generate_bone_accuracy_table(bone_auto_encoder,random_sample,random_csv_sample, 
-                output_test_csv_dir, i, args.print_csv, args.bone_training)
+        if(args.save_best_only):
 
-            encoder_save_path = os.path.join(model_save_path,f"{i:04d}_encoder_model.h5")
-            encoder.save(encoder_save_path)
+            if(loss < lowest_loss):
+                generate_bone_accuracy_table(bone_auto_encoder,random_sample,random_csv_sample, 
+                    output_test_csv_dir, i, args.print_csv, args.bone_training)
 
-            bone_decoder_save_path = os.path.join(model_save_path,f"{i:04d}_bone_decoder_model.h5")
-            bone_decoder.save(bone_decoder_save_path)
+                bone_auto_encoder_save_path = os.path.join(model_save_path,"bone_auto_encoder_model.h5")
+                bone_auto_encoder.save_weights(bone_auto_encoder_save_path)
 
-            lowest_loss = loss
+                lowest_loss = loss
+
+        else:
+            bone_auto_encoder_save_path = os.path.join(model_save_path,f"{i:04d}_bone_auto_encoder_model.h5")
+            bone_auto_encoder.save_weights(bone_auto_encoder_save_path)
 
         all_history.append(history.history['loss'][0])
-
+        save_experiment_history(args,all_history,output_history_path)
 
     generate_bone_accuracy_table(bone_auto_encoder,random_sample,random_csv_sample, 
                 output_history_path, args.num_epochs, args.print_csv, args.bone_training)
 
-    encoder_save_path = os.path.join(model_save_path,f"{args.num_epochs:04d}_encoder_model.h5")
-    encoder.save(encoder_save_path)
-
-
-    bone_decoder_save_path = os.path.join(model_save_path,f"{args.num_epochs:04d}_bone_decoder_model.h5")
-    bone_decoder.save(bone_decoder_save_path)
-
     save_experiment_history(args,all_history,output_history_path)
+
+    if(not args.save_best_only):
+        bone_auto_encoder_save_path = os.path.join(model_save_path,f"{args.num_epochs:04d}_bone_auto_encoder_model.h5")
+        bone_auto_encoder.save_weights(bone_auto_encoder_save_path)
 
