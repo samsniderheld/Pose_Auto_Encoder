@@ -34,7 +34,7 @@ def get_random_sample_img(args):
     with open(csv_paths[rand_idx]) as file:
                 csv_reader = csv.reader(file, delimiter=',')
                 for j,row in enumerate(csv_reader):
-                    for k, val in enumerate(row[4:]):
+                    for k, val in enumerate(row[4:7]):
                       X_csv[0,j,k] = float(val)/360.
 
 

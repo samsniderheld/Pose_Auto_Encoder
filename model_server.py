@@ -10,13 +10,18 @@ from scipy.spatial import distance
 import scipy.misc
 from keras.preprocessing import image
 from Model.bone_variational_auto_encoder import create_variational_bone_auto_encoder
-
+from Model.bone_auto_encoder import create_bone_auto_encoder
 
 # encoder_model = tf.keras.models.load_model('Saved_Models/0300_encoder_model.h5')
 # bone_decoder_model = tf.keras.models.load_model('Saved_Models/0300_bone_decoder_model.h5')
 
-encoder, bone_decoder, auto_encoder = create_variational_bone_auto_encoder(
-        dims=128, latent_dim = 512)
+# encoder, bone_decoder, auto_encoder = create_variational_bone_auto_encoder(
+#         dims=128, latent_dim = 512)
+
+img_dim = 32
+
+encoder, bone_decoder, auto_encoder = create_bone_auto_encoder(
+        dims=img_dim , latent_dim = 128)
 
 auto_encoder.load_weights('Saved_Models/bone_auto_encoder_model.h5')
 
@@ -38,9 +43,10 @@ def suggest():
 
     cv2.imwrite('test.jpg',np.array(pil_img))
 
+    pil_img = pil_img.resize((img_dim,img_dim))
+
     np_img = image.img_to_array(pil_img)
     
-
     np_img = np_img/255.
 
     sample = np.expand_dims(np_img, axis=0)

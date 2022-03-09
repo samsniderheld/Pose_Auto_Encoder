@@ -47,6 +47,8 @@ def train_bones(args):
                 lowest_loss = loss
 
         else:
+            generate_bone_accuracy_table(bone_auto_encoder,random_sample,random_csv_sample, 
+                    output_test_csv_dir, i, args.print_csv, args.bone_training)
             bone_auto_encoder_save_path = os.path.join(model_save_path,f"{i:04d}_bone_auto_encoder_model.h5")
             bone_auto_encoder.save_weights(bone_auto_encoder_save_path)
 
