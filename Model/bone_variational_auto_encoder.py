@@ -107,14 +107,14 @@ def create_variational_bone_auto_encoder(latent_dim = 10, dims = 128, kernal_siz
 
     bone_variational_auto_encoder_output = bone_decoder(encoder(image_encoder_input)[2])
 
-    bone_variational_auto_encoder = Model([image_encoder_input,bone_encoder_input], 
+    bone_variational_auto_encoder = Model([image_encoder_input,bone_encoder_input, bone_weight_input], 
         bone_variational_auto_encoder_output, name='bone_variational_auto_encoder')
 
     bone_variational_auto_encoder.summary()
 
     #define losses
     bone_reconstruction_loss = mse(K.flatten(bone_encoder_input), 
-        K.flatten(bone_variational_auto_encoder_output) * K.flatten(bone_weight_input))
+        K.flatten(bone_variational_auto_encoder_output * bone_weight_input))
     
     # bone_reconstruction_loss *= 52 * 3
     kl_loss = (1 + z_log_var - K.square(z_mean) - K.exp(z_log_var)) * beta
