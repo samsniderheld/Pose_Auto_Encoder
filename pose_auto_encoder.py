@@ -35,7 +35,7 @@ def parse_args():
     parser.add_argument('--bone_training', action='store_true')
     parser.add_argument('--vae', action='store_true')
     parser.add_argument('--notes', type=str, default="N/A", help='A description of the experiment')
-    parser.add_argument('--experiment_name', type=str, default="N/A", help='A name for the experiment')
+    parser.add_argument('--experiment_name', type=str, default="", help='A name for the experiment')
 
     return parser.parse_args()
 
@@ -43,7 +43,8 @@ def parse_args():
 def main():
     args = parse_args()
 
-    args.experiment_name = datetime.now().strftime("%Y_%m_%d_%H_%M")
+    args.experiment_name = datetime.now().strftime("%Y_%m_%d_%H_%M") 
+        + "_" + args.experiment_name
 
     args.base_results_dir = os.path.join(args.base_results_dir,args.experiment_name)
 

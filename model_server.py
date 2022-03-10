@@ -18,7 +18,7 @@ from Model.bone_auto_encoder import create_bone_auto_encoder
 # encoder, bone_decoder, auto_encoder = create_variational_bone_auto_encoder(
 #         dims=128, latent_dim = 512)
 
-img_dim = 32
+img_dim = 128
 
 encoder, bone_decoder, auto_encoder = create_bone_auto_encoder(
         dims=img_dim , latent_dim = 128)
