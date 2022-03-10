@@ -95,6 +95,7 @@ class BoneDataGenerator(tf.keras.utils.Sequence):
         
         X_img = np.empty((self.batch_size, self.dims, self.dims, self.channels))
         X_csv = np.empty((self.batch_size,52,3))
+        X_csv_weight = np.empty((self.batch_size,52,1))
 
         # read image
         for i, batch_file in enumerate(batch_files):
@@ -114,8 +115,9 @@ class BoneDataGenerator(tf.keras.utils.Sequence):
                 for j,row in enumerate(csv_reader):
                     for k, val in enumerate(row[4:7]):
                       X_csv[i,j,k] = float(val)/360.
-          
+
+                    X_csv_weight[i,j,0] = float(row[-1])
             
             
         
-        return ([X_img, X_csv],)
+        return ([X_img, X_csv, X_csv_weight],)

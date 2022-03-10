@@ -34,6 +34,8 @@ def create_variational_bone_auto_encoder(latent_dim = 10, dims = 128, kernal_siz
     #bone encoder input
     bone_encoder_input = Input(shape=(52,3))
 
+    bone_weight_input = Input(shape=(52,1))
+
 
     #downsampling/encoder
     x = Conv2D(64, (kernal_size, kernal_size), activation='relu', padding='same')(image_encoder_input)
@@ -112,9 +114,9 @@ def create_variational_bone_auto_encoder(latent_dim = 10, dims = 128, kernal_siz
 
     #define losses
     bone_reconstruction_loss = mse(K.flatten(bone_encoder_input), 
-        K.flatten(bone_variational_auto_encoder_output))
+        K.flatten(bone_variational_auto_encoder_output) * K.flatten(bone_weight_input))
     
-    bone_reconstruction_loss *= 52 * 3
+    # bone_reconstruction_loss *= 52 * 3
     kl_loss = (1 + z_log_var - K.square(z_mean) - K.exp(z_log_var)) * beta
     kl_loss = K.sum(kl_loss, axis=-1)
     kl_loss *= -0.5
