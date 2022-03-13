@@ -2,6 +2,7 @@ from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPooling2D, Conv2DTr
 from tensorflow.keras.models import Model
 from tensorflow.keras import backend as K
 from tensorflow.keras.losses import mse
+from tensorflow.math import multiply
 
 #via https://keras.io/examples/variational_autoencoder/
 def sampling(args):
@@ -34,7 +35,7 @@ def create_variational_bone_auto_encoder(latent_dim = 10, dims = 128, kernal_siz
     #bone encoder input
     bone_encoder_input = Input(shape=(52,3))
 
-    bone_weight_input = Input(shape=(52,1))
+    bone_weight_input = Input(shape=(52,3))
 
 
     #downsampling/encoder
@@ -107,14 +108,14 @@ def create_variational_bone_auto_encoder(latent_dim = 10, dims = 128, kernal_siz
 
     bone_variational_auto_encoder_output = bone_decoder(encoder(image_encoder_input)[2])
 
-    bone_variational_auto_encoder = Model([image_encoder_input,bone_encoder_input, bone_weight_input], 
+    bone_variational_auto_encoder = Model([image_encoder_input, bone_encoder_input, bone_weight_input], 
         bone_variational_auto_encoder_output, name='bone_variational_auto_encoder')
 
     bone_variational_auto_encoder.summary()
 
     #define losses
-    bone_reconstruction_loss = mse(K.flatten(bone_encoder_input), 
-        K.flatten(bone_variational_auto_encoder_output * bone_weight_input))
+    bone_reconstruction_loss = mse(K.flatten(multiply(bone_encoder_input,bone_weight_input)), 
+        K.flatten(bone_variational_auto_encoder_output))
     
     # bone_reconstruction_loss *= 52 * 3
     kl_loss = (1 + z_log_var - K.square(z_mean) - K.exp(z_log_var)) * beta

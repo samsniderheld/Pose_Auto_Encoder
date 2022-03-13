@@ -15,13 +15,15 @@ from Model.bone_auto_encoder import create_bone_auto_encoder
 # encoder_model = tf.keras.models.load_model('Saved_Models/0300_encoder_model.h5')
 # bone_decoder_model = tf.keras.models.load_model('Saved_Models/0300_bone_decoder_model.h5')
 
-# encoder, bone_decoder, auto_encoder = create_variational_bone_auto_encoder(
-#         dims=128, latent_dim = 512)
-
 img_dim = 128
 
-encoder, bone_decoder, auto_encoder = create_bone_auto_encoder(
-        dims=img_dim , latent_dim = 128)
+encoder, bone_decoder, auto_encoder = create_variational_bone_auto_encoder(
+        dims=img_dim, latent_dim = 128)
+
+
+
+# encoder, bone_decoder, auto_encoder = create_bone_auto_encoder(
+#         dims=img_dim , latent_dim = 128)
 
 auto_encoder.load_weights('Saved_Models/bone_auto_encoder_model.h5')
 
@@ -54,7 +56,7 @@ def suggest():
     empty_CSV = np.empty((1,52,3))
    
     # prediction = bone_decoder_model(encoder_model(sample))
-    prediction = auto_encoder([sample,empty_CSV])
+    prediction = auto_encoder([sample,empty_CSV,empty_CSV])
 
     response = {"bones": prediction[0].numpy().flatten().tolist()}
 

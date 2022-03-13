@@ -28,6 +28,7 @@ def get_random_sample_img(args):
 
     X_img = np.empty((1, args.img_width, args.img_width, args.channels))
     X_csv = np.empty((1, 52,3))
+    X_csv_weight = np.empty((1,52,3))
 
     X_img[0,] = img
 
@@ -36,12 +37,13 @@ def get_random_sample_img(args):
                 for j,row in enumerate(csv_reader):
                     for k, val in enumerate(row[4:7]):
                       X_csv[0,j,k] = float(val)/360.
+                      X_csv_weight[0,j,k] = float(row[7])
 
 
 
 
 
-    return ([X_img, X_csv],), X_csv
+    return ([X_img, X_csv, X_csv_weight],), X_csv
 
 def get_random_samples(args, number):
 
