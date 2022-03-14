@@ -7,8 +7,37 @@ import cv2
 import csv
 from Utils.util_functions import *
 
-
 def get_random_sample_img(args):
+
+    img_data_path = os.path.join(args.base_data_dir,args.input_data_dir_img + "*")
+
+    img_paths = sorted(glob.glob(img_data_path),key=natural_keys)
+
+    rand_idx = random.randint(0,len(img_paths))
+
+    img = cv2.imread(img_paths[rand_idx])
+
+    img = cv2.resize(img, (args.img_width,args.img_width))
+
+    img = img/255.
+
+    csv_data_path = os.path.join(args.base_data_dir,args.input_data_dir_csv + "*")
+
+    csv_paths = sorted(glob.glob(csv_data_path),key=natural_keys)
+
+    X_img = np.empty((1, args.img_width, args.img_width, args.channels))
+    X_csv = np.empty((1, 52,2))
+
+    X_img[0,] = img
+
+    with open(csv_paths[rand_idx]) as file:
+                csv_reader = csv.reader(file, delimiter=',')
+                for j,row in enumerate(csv_reader):
+                    for k, val in enumerate(row[1:3]):
+                      X_csv[0,j,k] = float(val)/1024.
+
+
+def get_random_sample_img_with_weight(args):
 
     img_data_path = os.path.join(args.base_data_dir,args.input_data_dir_img + "*")
 

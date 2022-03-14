@@ -78,7 +78,7 @@ def create_bone_auto_encoder(latent_dim = 10, dims = 128, kernal_size = 3):
     x2 = BatchNormalization()(x2)
     x2 = Conv2DTranspose(128, (kernal_size, kernal_size), strides = (1,1), activation='relu', padding='same')(x2)
     x2 = BatchNormalization()(x2)
-    bone_decoder_output = Conv2DTranspose(3, (kernal_size, kernal_size), strides = (1,1), activation='sigmoid', padding='same')(x2)
+    bone_decoder_output = Conv2DTranspose(2, (kernal_size, kernal_size), strides = (1,1), activation='sigmoid', padding='same')(x2)
 
     # instantiate bone decoder model
     bone_decoder = Model(bone_decoder_input, bone_decoder_output, name='bone_decoder')
