@@ -15,7 +15,7 @@ def create_bone_auto_encoder(latent_dim = 10, dims = 128, kernal_size = 3):
     image_encoder_input = Input(shape=input_shape)
 
     #bone encoder input
-    bone_encoder_input = Input(shape=(52,3))
+    bone_encoder_input = Input(shape=(52,2))
 
 
     #downsampling/encoder

@@ -36,6 +36,8 @@ def get_random_sample_img(args):
                     for k, val in enumerate(row[1:3]):
                       X_csv[0,j,k] = float(val)/1024.
 
+    return ([X_img, X_csv],), X_csv
+
 
 def get_random_sample_img_with_weight(args):
 
