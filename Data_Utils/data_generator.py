@@ -113,7 +113,7 @@ class BoneDataGenerator(tf.keras.utils.Sequence):
                 csv_reader = csv.reader(file, delimiter=',')
                 for j,row in enumerate(csv_reader):
                     for k, val in enumerate(row[1:3]):
-                      X_csv[i,j,k] = float(val)/1024
+                      X_csv[i,j,k] = float(val)/360
             
             
         
